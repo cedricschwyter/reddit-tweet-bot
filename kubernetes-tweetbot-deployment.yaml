@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tweetbot
+  labels:
+    app: tweetbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tweetbot
+  template:
+    metadata:
+      labels:
+        app: tweetbot
+    spec:
+      containers:
+      - name: tweetbot
+        image: d3psi/tweetbot:latest
+        env:
+        - name: TWEETBOT_REDDIT_SUBREDDIT
+          value: r/memes
+        - name: TWEETBOT_TWITTER_CONSUMER_KEY
+          value: twitter_consumer_key_here
+        - name: TWEETBOT_TWITTER_CONSUMER_SECRET
+          value: twitter_consumer_secret_here
+        - name: TWEETBOT_TWITTER_USER
+          value: twitter_user_name
+        - name: TWEETBOT_TWITTER_KEY
+          value: twitter_password
+        - name: TWEETBOT_REDDIT_CLIENT_ID
+          value: reddit_application_id
+        - name: TWEETBOT_REDDIT_CLIENT_SECRET
+          value: reddit_application_secret
+        - name: TWEETBOT_REDDIT_USER_NAME
+          value: reddit_user_name
+        - name: TWEETBOT_REDDIT_USER_KEY
+          value: reddit_password
+        - name: TWEETBOT_REDDIT_USER_AGENT
+          value: tweetbot by D3PSI
