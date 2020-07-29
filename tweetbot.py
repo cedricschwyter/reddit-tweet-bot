@@ -19,7 +19,12 @@ old_posts = subreddit.new(limit=25)
 
 
 def tweet(post):
-    log.debug('Tweeting post ' + post.title + '...')
+    try:
+        log.debug('Tweeting post ' + post.title + '...')
+        
+    except:
+        log.error('Failed to tweet post ' + post.title)
+        pass
 
 
 def tweetbot():
