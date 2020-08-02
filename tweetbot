@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import time
 import logging as log
@@ -28,7 +29,7 @@ twitter_auth = tweepy.OAuthHandler(
                 twitter_keys['consumer_secret']
             )
 twitter_auth.set_access_token(
-                twitter_keys['access_token'],
+                twitter_keys['access_token_key'],
                 twitter_keys['access_token_secret']
             )
 twitter_api = tweepy.API(twitter_auth)
@@ -60,6 +61,7 @@ def tweetbot():
         for new_post in new_posts:
             if new_post not in old_posts:
                 tweet(new_post)
+        old_posts = new_posts
         time.sleep(1)
     log.debug('Exiting tweetbot...')
 
