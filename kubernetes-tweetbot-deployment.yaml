@@ -20,6 +20,10 @@ spec:
         env:
         - name: TWEETBOT_REDDIT_SUBREDDIT
           value: r/memes
+        - name: TWEETBOT_TWITTER_ACCESS_TOKEN
+          value: twitter_access_token_here
+        - name: TWEETBOT_TWITTER_ACCESS_TOKEN_SECRET
+          value: twitter_access_token_secret_here
         - name: TWEETBOT_TWITTER_CONSUMER_KEY
           value: twitter_consumer_key_here
         - name: TWEETBOT_TWITTER_CONSUMER_SECRET

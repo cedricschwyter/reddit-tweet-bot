@@ -1,2 +1,2 @@
 praw==7.1.0
-python-twitter==3.5
+tweepy==3.9.0
