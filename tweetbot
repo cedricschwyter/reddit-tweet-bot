@@ -35,8 +35,17 @@ twitter_auth.set_access_token(
             )
 twitter_api = tweepy.API(twitter_auth)
 
-FORMAT = '%(asctime)-12s %(levelname)-8s %(message)s'
-log.basicConfig(format=FORMAT, level=log.DEBUG)
+log_path = os.path.join(os.path.dirname(__file__), 'reddit-tweet-bot.log')
+logFormatter = log.Formatter("%(asctime)-12s %(levelname)-8s %(message)s")
+rootLogger = log.getLogger()
+
+fileHandler = log.FileHandler(log_path)
+fileHandler.setFormatter(logFormatter)
+rootLogger.addHandler(fileHandler)
+
+consoleHandler = log.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+rootLogger.addHandler(consoleHandler)
 
 
 def tweet(post):
