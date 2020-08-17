@@ -4,6 +4,7 @@ import time
 import logging as log
 import praw
 import tweepy
+import requests
 
 
 SUBREDDIT = os.environ.get('TWEETBOT_REDDIT_SUBREDDIT')
@@ -34,35 +35,42 @@ twitter_auth.set_access_token(
             )
 twitter_api = tweepy.API(twitter_auth)
 
-old_posts = subreddit.new(limit=25)
+log_path = os.path.join(os.path.dirname(__file__), 'reddit-tweet-bot.log')
+FORMAT = '%(asctime)-12s %(levelname)-8s %(message)s'
+log.basicConfig(format=FORMAT, filename=log_path, level=log.DEBUG)
 
 
 def tweet(post):
     try:
-        log.debug('Tweeting post ' + post.title + '...')
+        log.debug('Tweeting post "' + post.title + '"...')
         url = (post.url)
         file_name = url.split("/")
         if url.endswith("jpg") or url.endswith("jpeg") or url.endswith("png"):
             r = requests.get(url)
-            with open(file_name,"wb+") as f:
+            with open(file_name[-1], "wb+") as f:
                 f.write(r.content)
-            media = twitter_api.media_upload(file_name)
+            media = twitter_api.media_upload(file_name[-1])
             post_result = twitter_api.update_status(status=post.title, 
                                                     media_ids=[media.media_id])
+            os.remove(file_name[-1])
     except:
-        log.error('Failed to tweet post ' + post.title)
+        log.error('Failed to tweet post "' + post.title + '"')
         pass
 
 
 def tweetbot():
     log.debug('Starting tweetbot...')
+    old_posts = subreddit.new(limit=25)
     while True:
-        new_posts = subreddit.new(limit=25)
-        for new_post in new_posts:
-            if new_post not in old_posts:
-                tweet(new_post)
-        old_posts = new_posts
-        time.sleep(1)
+        try:
+            new_posts = subreddit.new(limit=25)
+            for new_post in new_posts:
+                if new_post not in old_posts:
+                    tweet(new_post)
+            old_posts = new_posts
+        except:
+            pass
+        time.sleep(10)
     log.debug('Exiting tweetbot...')
 
 

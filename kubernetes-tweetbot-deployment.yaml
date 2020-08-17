@@ -19,7 +19,7 @@ spec:
         image: d3psi/tweetbot:latest
         env:
         - name: TWEETBOT_REDDIT_SUBREDDIT
-          value: r/memes
+          value: memes
         - name: TWEETBOT_TWITTER_ACCESS_TOKEN
           value: twitter_access_token_here
         - name: TWEETBOT_TWITTER_ACCESS_TOKEN_SECRET
