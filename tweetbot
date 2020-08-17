@@ -35,9 +35,8 @@ twitter_auth.set_access_token(
             )
 twitter_api = tweepy.API(twitter_auth)
 
-log_path = os.path.join(os.path.dirname(__file__), 'reddit-tweet-bot.log')
 FORMAT = '%(asctime)-12s %(levelname)-8s %(message)s'
-log.basicConfig(format=FORMAT, filename=log_path, level=log.DEBUG)
+log.basicConfig(format=FORMAT, level=log.DEBUG)
 
 
 def tweet(post):
@@ -53,6 +52,9 @@ def tweet(post):
             post_result = twitter_api.update_status(status=post.title, 
                                                     media_ids=[media.media_id])
             os.remove(file_name[-1])
+    except tweepy.RateLimitError:
+        log.error('Rate limit hit, pausing for 5 min...')
+        time.sleep(5 * 60)
     except:
         log.error('Failed to tweet post "' + post.title + '"')
         pass
@@ -60,17 +62,17 @@ def tweet(post):
 
 def tweetbot():
     log.debug('Starting tweetbot...')
-    old_posts = subreddit.new(limit=25)
+    old_posts = subreddit.new(limit=1)
     while True:
         try:
-            new_posts = subreddit.new(limit=25)
+            new_posts = subreddit.new(limit=1)
             for new_post in new_posts:
                 if new_post not in old_posts:
                     tweet(new_post)
             old_posts = new_posts
         except:
             pass
-        time.sleep(10)
+        time.sleep(100)
     log.debug('Exiting tweetbot...')
 
 
