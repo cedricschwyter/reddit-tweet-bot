@@ -71,17 +71,17 @@ def tweet(post):
 
 def tweetbot():
     log.debug('Starting tweetbot...')
-    old_posts = subreddit.new(limit=1)
+    old_posts = subreddit.hot(limit=60)
     while True:
         try:
-            new_posts = subreddit.new(limit=1)
+            new_posts = subreddit.hot(limit=60)
             for new_post in new_posts:
                 if new_post not in old_posts:
                     tweet(new_post)
+                    time.sleep(100)
             old_posts = new_posts
         except:
             pass
-        time.sleep(100)
     log.debug('Exiting tweetbot...')
 
 
