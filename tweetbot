@@ -76,7 +76,7 @@ def tweetbot():
         try:
             new_posts = subreddit.hot(limit=60)
             for new_post in new_posts:
-                if new_post not in old_posts:
+                if new_post.url not in [post.url for post in old_posts]:
                     tweet(new_post)
                     time.sleep(5 * 60)
             old_posts = new_posts
