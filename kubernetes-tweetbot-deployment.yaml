@@ -28,10 +28,6 @@ spec:
           value: twitter_consumer_key_here
         - name: TWEETBOT_TWITTER_CONSUMER_SECRET
           value: twitter_consumer_secret_here
-        - name: TWEETBOT_TWITTER_USER
-          value: twitter_user_name
-        - name: TWEETBOT_TWITTER_KEY
-          value: twitter_password
         - name: TWEETBOT_REDDIT_CLIENT_ID
           value: reddit_application_id
         - name: TWEETBOT_REDDIT_CLIENT_SECRET
